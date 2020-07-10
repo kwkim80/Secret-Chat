@@ -51,5 +51,5 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
 
     //facebook
-    
+    implementation 'com.facebook.android:facebook-android-sdk:4.42.0'
 }

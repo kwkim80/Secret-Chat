@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Secret Chat</string>
+    <string name="facebook_app_id">730631831084993</string>
+    <string name="fb_login_protocol_scheme">fb730631831084993</string>
+
 </resources>

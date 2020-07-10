@@ -24,6 +24,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.login.LoginManager;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.appinvite.AppInviteInvitation;
@@ -43,6 +46,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     private String mUsername;
     private String mPhotoUrl;
     private String mUserEmail;
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -277,8 +285,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             public void onComplete(@NonNull Task<Void> task) {
                                 mFirebaseAuth.signOut();
                                 mUsername = "";
+
+                                if(AccessToken.getCurrentAccessToken() != null)LoginManager.getInstance().logOut();
+
                                 startActivity(new Intent(MainActivity.this, SignInActivity.class));
                                 finish();
+
+
                             }
                         });
                 return true;
@@ -286,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 sendInvitation();
                 return true;
             case R.id.crash_menu:
-                throw new RuntimeException("치명적인 버그!!");
+                throw new RuntimeException("Throw Runtime Exception");
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -333,9 +346,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     }
 
     private void sendInvitation() {
-        Intent intent = new AppInviteInvitation.IntentBuilder("초대 제목")
-                .setMessage("채팅앱에 초대합니다")
-                .setCallToActionText("채팅에 참여하기")
+        Intent intent = new AppInviteInvitation.IntentBuilder("Invite Title")
+                .setMessage("Invite you to chatting room")
+                .setCallToActionText("Join to chatting room")
                 .build();
         startActivityForResult(intent, REQUEST_INVITE);
     }
